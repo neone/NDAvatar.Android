@@ -1,0 +1,2 @@
+include ':NDAvatarAndroidSample', ':ndavatar'
+rootProject.name='NDAvatarAndroid'
