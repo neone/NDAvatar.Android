@@ -24,27 +24,18 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
-import android.view.ViewOutlineProvider
 import android.widget.ImageView
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
 import kotlin.math.min
 import kotlin.math.pow
 
 
 open class CircleImageView:ImageView {
     // Constructors for ImageView
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs, 0)
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0)
 
@@ -54,7 +45,6 @@ open class CircleImageView:ImageView {
         mCircleBackgroundColor = a.getColor(R.styleable.CircleImageView_civ_circle_background_color, DEFAULT_CIRCLE_BACKGROUND_COLOR)
 
         a.recycle()
-        init()
     }
 
     // Equivalence of 'private static final' in java
@@ -106,7 +96,7 @@ open class CircleImageView:ImageView {
     private var mDrawableRadius = 0f
     private var mBorderRadius = 0f
 
-    private var mColorFilter: ColorFilter = this.colorFilter
+    private var mColorFilter: ColorFilter? = null
     set(value) {
         if (value == field) {
             return
@@ -138,7 +128,7 @@ open class CircleImageView:ImageView {
         initializeBitmap()
     }
 
-    private fun init() {
+    init {
         super.setScaleType(SCALE_TYPE)
         mReady = true
 
@@ -147,6 +137,15 @@ open class CircleImageView:ImageView {
             mSetupPending = false
         }
     }
+//    private fun init() {
+//        super.setScaleType(SCALE_TYPE)
+//        mReady = true
+//
+//        if (mSetupPending) {
+//            setup()
+//            mSetupPending = false
+//        }
+//    }
 
     override fun getScaleType(): ScaleType {
         return SCALE_TYPE
