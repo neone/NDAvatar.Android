@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/neoneOrangeLight</color>
+    <color name="colorPrimaryDark">@color/neoneOrangeDark</color>
+    <color name="colorAccent">@color/neoneGrayDark</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="neoneOrange">#FC9932</color>
+    <color name="neoneOrangeLight">#FCAC56</color>
+    <color name="neoneOrangeDark">#F88220</color>
+    <color name="neoneGray">#A2A39F</color>
+    <color name="neoneInterfaceGray">#B6B6B6</color>
+    <color name="neoneGrayLight">#D4D4D0</color>
+    <color name="neoneGrayLightest">#F7F6F6</color>
+    <color name="neoneGrayDark">#838480</color>
+    <color name="neoneGrayDarker">#737470</color>
+    <color name="neoneGrayDarkest">#555555</color>
+    <color name="neoneGreen">#71B834</color>
+    <color name="neoneGreenLight">#B4EC50</color>
+    <color name="neoneGreenDark">#B4EC50</color>
+    <color name="neoneRed">#E13842</color>
+    <color name="neoneRedLight">#F4505E</color>
+    <color name="neoneRedDark">#CF2127</color>
+    <color name="neoneYellow">#FFC547</color>
+    <color name="neoneYellowLight">#FFD06B</color>
+    <color name="neoneYellowDark">#F6BB2A</color>
+</resources>

@@ -29,11 +29,13 @@ import android.view.MotionEvent
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.core.graphics.drawable.toBitmap
 import kotlin.math.min
 import kotlin.math.pow
 
 
 open class CircleImageView:ImageView {
+    private val paintbrush = Paint()
     // Constructors for ImageView
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
@@ -172,13 +174,34 @@ open class CircleImageView:ImageView {
             return
         }
 
+
+
         if (mCircleBackgroundColor != Color.TRANSPARENT) {
             canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint)
         }
+
+
+
+
         canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
+
         if (mBorderWidth > 0) {
             canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
         }
+
+        val ndTextDraw = NDTextDraw.builder()
+            .beginConfig()
+            ?.textColor(Color.WHITE)
+            ?.useFont(Typeface.DEFAULT_BOLD)
+            ?.fontSize((mDrawableRect.height() *.60f).toInt())/* size in px */
+            ?.bold()
+            ?.toUpperCase()
+            ?.withBorder(15)
+            ?.endConfig()
+            ?.buildRoundRect("MA", resources.getColor(R.color.neoneOrange, null), 80)
+            ?.toBitmap(mDrawableRect.width().toInt(), mDrawableRect.height().toInt())
+        canvas.drawBitmap(ndTextDraw!!, 0f, 0f, mBitmapPaint)
+
     }
 
 
