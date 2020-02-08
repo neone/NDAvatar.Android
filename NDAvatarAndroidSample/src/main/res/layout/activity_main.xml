@@ -15,17 +15,91 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.neone.android.ndavatar.CircleImageView
+            android:id="@+id/circleImageView"
             android:name="com.neone.android.ndavatar.CircleImageView"
-            class = "com.neone.android.ndavatar.CircleImageView"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_centerInParent="true"
             android:src="@drawable/default_avatar"
-            app:civ_border_color="@color/colorPrimaryDark"
-            app:civ_border_width="2dp"
+            app:civ_circle_background_color="@color/neoneGrayDark"
+            app:civ_border_color="@color/neoneOrange"
+            app:civ_border_width="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView">
+
+            <TextView
+                android:id="@+id/BorderSizeControlHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/border_size_controls_heading_text"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_borderSizeIncrease"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btn_borderSizeDecrease"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_borderSizeIncrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/BorderSizeControlHeader"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/arrow_up_float" />
+
+            <ImageButton
+                android:id="@+id/btn_borderSizeDecrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/arrow_down_float" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/circleImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/BorderSizeHeadingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BORDER SIZE"
+                app:layout_constraintBottom_toTopOf="@id/borderSizeDisplay"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:layout_editor_absoluteX="19dp"
+                tools:layout_editor_absoluteY="7dp" />
+
+            <TextView
+                android:id="@+id/borderSizeDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/BorderSizeHeadingText" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,7 +35,7 @@ import kotlin.math.pow
 open class CircleImageView:ImageView {
     // Constructors for ImageView
     constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0)
 
@@ -52,9 +52,9 @@ open class CircleImageView:ImageView {
         val SCALE_TYPE = ScaleType.CENTER_CROP
         val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
         val COLORDRAWABLE_DIMENSION = 2
-        val DEFAULT_BORDER_WIDTH = 0
-        val DEFAULT_BORDER_COLOR = Color.BLACK
-        val DEFAULT_CIRCLE_BACKGROUND_COLOR = Color.TRANSPARENT
+        val DEFAULT_BORDER_WIDTH = 5
+        val DEFAULT_BORDER_COLOR = Color.BLUE
+        val DEFAULT_CIRCLE_BACKGROUND_COLOR = Color.GREEN
         val DEFAULT_BORDER_OVERLAY = false
     }
 
@@ -77,6 +77,14 @@ open class CircleImageView:ImageView {
         invalidate()
     }
     private var mBorderWidth = DEFAULT_BORDER_WIDTH
+    set(value) {
+        if (value == field) {
+            return
+        }
+
+        field = value
+        setup()
+    }
     private var mCircleBackgroundColor = DEFAULT_CIRCLE_BACKGROUND_COLOR
     set(value) {
         if (value == field) {
@@ -137,15 +145,6 @@ open class CircleImageView:ImageView {
             mSetupPending = false
         }
     }
-//    private fun init() {
-//        super.setScaleType(SCALE_TYPE)
-//        mReady = true
-//
-//        if (mSetupPending) {
-//            setup()
-//            mSetupPending = false
-//        }
-//    }
 
     override fun getScaleType(): ScaleType {
         return SCALE_TYPE
@@ -375,5 +374,22 @@ open class CircleImageView:ImageView {
         return  (x - mBorderRect.centerX()).toDouble().pow(2.0) +
                 (y - mBorderRect.centerY()).toDouble().pow(2.0) <=
                 mBorderRadius.toDouble().pow(2.0)
+    }
+
+    /**
+     * Accessor to set border width. Will cause a
+     * redraw of the circleview with the new border width.
+     * @param newSize Int
+     */
+    fun setBorderWidth(newSize: Int) {
+        mBorderWidth = newSize
+    }
+
+    /**
+     * Getter to get current border width.
+     * @return The width setting of the border as an Int.B
+     */
+    fun getBorderWidth(): Int {
+        return mBorderWidth
     }
 }
