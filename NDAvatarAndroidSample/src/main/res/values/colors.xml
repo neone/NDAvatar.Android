@@ -3,6 +3,9 @@
     <color name="colorPrimary">@color/neoneOrangeLight</color>
     <color name="colorPrimaryDark">@color/neoneOrangeDark</color>
     <color name="colorAccent">@color/neoneGrayDark</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
     <color name="neoneOrange">#FC9932</color>
     <color name="neoneOrangeLight">#FCAC56</color>
     <color name="neoneOrangeDark">#F88220</color>

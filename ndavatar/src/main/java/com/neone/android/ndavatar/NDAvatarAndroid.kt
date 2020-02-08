@@ -27,6 +27,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.ImageView
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import kotlin.math.min
 import kotlin.math.pow
@@ -391,5 +392,13 @@ open class CircleImageView:ImageView {
      */
     fun getBorderWidth(): Int {
         return mBorderWidth
+    }
+
+    /**
+     * Accessor to set border stroke color. Will cause a
+     * redraw of the circleview with the new border stroke color.
+     */
+    fun setBorderStrokeColor(@ColorInt newColor: Int) {
+        mBorderColor = newColor
     }
 }

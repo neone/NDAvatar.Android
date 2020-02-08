@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/neoneGrayLight"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,15 +22,16 @@
             android:layout_height="160dp"
             android:layout_centerInParent="true"
             android:src="@drawable/default_avatar"
-            app:civ_circle_background_color="@color/neoneGrayDark"
+            app:civ_circle_background_color="@color/neoneGreen"
             app:civ_border_color="@color/neoneOrange"
-            app:civ_border_width="20dp"
+            app:civ_border_width="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutContainer_borderSizeControlGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -69,9 +71,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/arrow_down_float" />
+
+            <SeekBar
+                android:id="@+id/seekBar_borderSizeSlider"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:max="250"
+                android:min="0"
+                android:minWidth="100dp"
+                android:progressBackgroundTint="@color/neoneGrayDark"
+                android:progressTint="@color/neoneOrange"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/BorderSizeControlHeader" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutContainer_borderSizeDisplayGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/circleImageView"
@@ -82,7 +100,7 @@
                 android:id="@+id/BorderSizeHeadingText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BORDER SIZE"
+                android:text="@string/border_size_display_header_text"
                 app:layout_constraintBottom_toTopOf="@id/borderSizeDisplay"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent"
@@ -99,6 +117,69 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/BorderSizeHeadingText" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutContainer_borderColorControlGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutContainer_borderSizeControlGroup">
+
+            <TextView
+                android:id="@+id/textView_borderColorControlGroupHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/border_color_controls_header_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/borderColorControls_slider_red"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:min="0"
+                android:max="255"
+                android:progress="127"
+                android:progressTint="@color/red"
+                android:progressBackgroundTint="@color/neoneGrayDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_borderColorControlGroupHeader" />
+
+            <SeekBar
+                android:id="@+id/borderColorControls_slider_green"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:min="0"
+                android:max="255"
+                android:progress="127"
+                android:progressTint="@color/green"
+                android:progressBackgroundTint="@color/neoneGrayDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/borderColorControls_slider_red" />
+
+            <SeekBar
+                android:id="@+id/borderColorControls_slider_blue"
+                android:layout_width="255dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:min="0"
+                android:max="255"
+                android:progress="127"
+                android:progressTint="@color/blue"
+                android:progressBackgroundTint="@color/neoneGrayDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/borderColorControls_slider_green" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

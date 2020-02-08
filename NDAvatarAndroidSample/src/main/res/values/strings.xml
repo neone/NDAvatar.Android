@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">NDAvatarAndroid</string>
-    <string name="border_size_controls_heading_text">Border size controls</string>
+    <string name="border_size_controls_heading_text">border size controls</string>
+    <string name="border_size_display_header_text">border stroke length</string>
+    <string name="border_color_controls_header_text">border color controls</string>
 </resources>
