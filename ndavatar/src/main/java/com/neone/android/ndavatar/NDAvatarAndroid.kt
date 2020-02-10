@@ -46,6 +46,8 @@ open class CircleImageView:ImageView {
         mBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR)
         mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
         mCircleBackgroundColor = a.getColor(R.styleable.CircleImageView_civ_circle_background_color, DEFAULT_CIRCLE_BACKGROUND_COLOR)
+        initializeBitmap()
+
 
         a.recycle()
     }
@@ -59,8 +61,10 @@ open class CircleImageView:ImageView {
         val DEFAULT_BORDER_COLOR = Color.BLUE
         val DEFAULT_CIRCLE_BACKGROUND_COLOR = Color.GREEN
         val DEFAULT_BORDER_OVERLAY = false
+        val DEFAULT_INITIALS = "MA"
     }
 
+    var stringToRender = DEFAULT_INITIALS
     private val mDrawableRect = RectF()
     private val mBorderRect = RectF()
 
@@ -86,7 +90,7 @@ open class CircleImageView:ImageView {
         }
 
         field = value
-        setup()
+        calcAvatarBoundsAndSetPaintbrushes()
     }
     private var mCircleBackgroundColor = DEFAULT_CIRCLE_BACKGROUND_COLOR
     set(value) {
@@ -127,7 +131,7 @@ open class CircleImageView:ImageView {
             }
 
             field = value
-            setup()
+            calcAvatarBoundsAndSetPaintbrushes()
         }
     private var mDisableCircularTransformation = false
     set(value) {
@@ -144,7 +148,7 @@ open class CircleImageView:ImageView {
         mReady = true
 
         if (mSetupPending) {
-            setup()
+            calcAvatarBoundsAndSetPaintbrushes()
             mSetupPending = false
         }
     }
@@ -169,20 +173,18 @@ open class CircleImageView:ImageView {
 
 
     override fun onDraw(canvas: Canvas) {
+        // IF not drawing a circle
         if (mDisableCircularTransformation) {
             super.onDraw(canvas)
             return
         }
 
-
-
+        // Paint background first
         if (mCircleBackgroundColor != Color.TRANSPARENT) {
             canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint)
         }
 
-
-
-
+        // Paint avatar image or initials. mBitmapPaint should auto-switch to initials in the case of missing drawable for avatar
         canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
 
         if (mBorderWidth > 0 && mDrawableRect.width() > 0 && mDrawableRect.height() > 0) {
@@ -209,19 +211,19 @@ open class CircleImageView:ImageView {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        setup()
+        calcAvatarBoundsAndSetPaintbrushes()
     }
 
 
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
         super.setPadding(left, top, right, bottom)
-        setup()
+        calcAvatarBoundsAndSetPaintbrushes()
     }
 
 
     override fun setPaddingRelative(start: Int, top: Int, end: Int, bottom: Int) {
         super.setPaddingRelative(start, top, end, bottom)
-        setup()
+        calcAvatarBoundsAndSetPaintbrushes()
     }
 
     override fun setImageBitmap(bm: Bitmap) {
@@ -291,15 +293,15 @@ open class CircleImageView:ImageView {
      * Sets bitmap reference from drawable OR a default drawable to avoid null.
      */
     private fun initializeBitmap() {
-        mBitmap = if (!mDisableCircularTransformation) {
+        mBitmap = if (drawable != null) {
             getBitmapFromDrawable(drawable)
         } else {
             getBitmapFromDrawable(resources.getDrawable(R.drawable.default_avatar, null))
         }
-        setup()
+        calcAvatarBoundsAndSetPaintbrushes()
     }
 
-    private fun setup() {
+    private fun calcAvatarBoundsAndSetPaintbrushes() {
         if (!mReady) {
             mSetupPending = true
             return
@@ -309,8 +311,10 @@ open class CircleImageView:ImageView {
             return
         }
 
-        mBitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-
+        // mBitmap contains the avatar image to be painted, if null, paint initials instead
+        if (::mBitmap.isInitialized) {
+            mBitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        }
         mBitmapPaint.isAntiAlias = true
         mBitmapPaint.isDither = true
         mBitmapPaint.isFilterBitmap = true
