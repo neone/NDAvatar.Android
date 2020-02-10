@@ -185,22 +185,24 @@ open class CircleImageView:ImageView {
 
         canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
 
-        if (mBorderWidth > 0) {
+        if (mBorderWidth > 0 && mDrawableRect.width() > 0 && mDrawableRect.height() > 0) {
             canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
+            val ndTextDraw = NDTextDraw.builder()
+                .beginConfig()
+                ?.textColor(Color.WHITE)
+                ?.useFont(Typeface.DEFAULT_BOLD)
+                ?.fontSize((mDrawableRect.height() *.60f).toInt())/* size in px */
+                ?.bold()
+                ?.toUpperCase()
+                ?.withBorder(15)
+                ?.endConfig()
+                ?.buildRoundRect("MA", resources.getColor(R.color.neoneOrange, null), 80)
+                ?.toBitmap(mDrawableRect.width().toInt(), mDrawableRect.height().toInt())
+            canvas.drawBitmap(ndTextDraw!!, 0f, 0f, mBitmapPaint)
         }
 
-        val ndTextDraw = NDTextDraw.builder()
-            .beginConfig()
-            ?.textColor(Color.WHITE)
-            ?.useFont(Typeface.DEFAULT_BOLD)
-            ?.fontSize((mDrawableRect.height() *.60f).toInt())/* size in px */
-            ?.bold()
-            ?.toUpperCase()
-            ?.withBorder(15)
-            ?.endConfig()
-            ?.buildRoundRect("MA", resources.getColor(R.color.neoneOrange, null), 80)
-            ?.toBitmap(mDrawableRect.width().toInt(), mDrawableRect.height().toInt())
-        canvas.drawBitmap(ndTextDraw!!, 0f, 0f, mBitmapPaint)
+
+
 
     }
 
