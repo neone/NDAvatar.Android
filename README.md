@@ -8,6 +8,11 @@ The NDAvatar framework provides a unified way of setting and displaying user ava
 
 This framework is simply about having a view you can feed a name and/or picture and it displays a rounded crop version with either the pic or user initials.
 
+## REQUIREMENTS FOR USE
+- Android: minSdkVersion 26
+- Android: targetSdkVersion 29
+- Kotlin: Compiled/Tested with 1.3+
+
 ## FEATURES
 
 - Rectangular or circular avatar view: Selectable with a boolean flag
