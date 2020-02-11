@@ -6,12 +6,8 @@ import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
 
-/**
- * @author amulya
- * @datetime 14 Oct 2014, 3:53 PM
- */
 class NDTextDraw private constructor(builder: Builder): ShapeDrawable(builder.shape) {
-    private val textPaint: Paint
+    val textPaint: Paint
     private val borderPaint: Paint
     private val text: String
     private val color: Int
@@ -46,10 +42,11 @@ class NDTextDraw private constructor(builder: Builder): ShapeDrawable(builder.sh
         textPaint.textSize = fontSize.toFloat()
         canvas.drawText(
             text,
-            width / 2.toFloat(),
-            height / 2 - (textPaint.descent() + textPaint.ascent()) / 2,
+            width / 2f,
+            height / 2f - (textPaint.descent() + textPaint.ascent()) / 2,
             textPaint
         )
+
         canvas.restoreToCount(count)
     }
 

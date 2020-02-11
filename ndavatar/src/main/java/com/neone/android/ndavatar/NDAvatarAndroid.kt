@@ -25,6 +25,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -60,6 +61,9 @@ open class CircleImageView:ImageView {
         val DEFAULT_BORDER_COLOR = Color.BLUE
         val DEFAULT_AVATAR_BACKGROUND_COLOR = Color.GREEN
         val DEFAULT_BORDER_OVERLAY = false
+        val erasePaint = Paint().apply {
+            setXfermode(PorterDuffXfermode(PorterDuff.Mode.CLEAR))
+        }
         /**
          * Defaults for initials-based avatar
          */
@@ -89,7 +93,14 @@ open class CircleImageView:ImageView {
     var stringToRender = DEFAULT_INITIALS
         set(newString) {
             if (newString == field) return
-            field = newString
+            // If string contains a space-character then split into first letters to make initials
+            field = if (newString.trim().contains(' ')) {
+                val splice = newString.split(" ")
+                "${splice[0][0]}${splice[1][0]}"
+            } else {
+                newString
+            }
+
             avatarUsingInitialsBuilder = generateInitialsTextDraw()!!
             initializeBitmap()
         }
@@ -246,9 +257,11 @@ open class CircleImageView:ImageView {
     }
 
     override fun onDraw(canvas: Canvas) {
-        //Circular mask?
         when (applyCircularMask) {
             true -> {
+                // Paint a transparent wipe on the border layer to clear any old content
+                canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, erasePaint)
+
                 // Paint Border
                 if (mDrawableRect.width() > 0 && mDrawableRect.height() > 0) {
                     canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
@@ -261,6 +274,9 @@ open class CircleImageView:ImageView {
                 canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
             }
             false -> {
+                // Paint a transparent border rect to clear any old drawings
+                canvas.drawRect(mBorderRect, erasePaint)
+
                 // Paint the border
                 canvas.drawRect(mBorderRect, mBorderPaint)
 
@@ -393,12 +409,19 @@ open class CircleImageView:ImageView {
      * TODO: Dynamically size font size to fit to drawable area
      */
     private fun fitTextToDrawableArea(): Int {
-        return if (mDrawableRect != null) {
-            mDrawableRect.height().toInt()
-        } else {
-            // See the above todo, this is an arbitrary number that happened to work for initial testing
-            (DEFAULT_FONT_SIZE * 1.5f).toInt()
-        }
+        if (mDrawableRect?.width() == null || mDrawableRect?.height() == null || avatarUsingInitialsBuilder == null) return 200
+        // Discussion on this algorithm: https://stackoverflow.com/a/21895626
+        // Credit for pattern goes to Michael Scheper in that stack overflow
+        // set a guess-text size to begin measuring
+        val testTextSize = 20f
+        avatarUsingInitialsBuilder?.textPaint?.textSize = testTextSize
+        val boundsUsingTestTextSize = Rect()
+        avatarUsingInitialsBuilder?.textPaint?.getTextBounds(stringToRender, 0, stringToRender.length, boundsUsingTestTextSize)
+        avatarUsingInitialsBuilder?.textPaint?.measureText(stringToRender)
+        val constrainingSide = min(boundsUsingTestTextSize.height(), boundsUsingTestTextSize.width())
+        val estimatedBestFitFontSize = testTextSize * mDrawableRadius / constrainingSide
+
+        return estimatedBestFitFontSize.toInt()
     }
 
     /**
@@ -462,13 +485,14 @@ open class CircleImageView:ImageView {
                 avatarBorderStrokeWidth - 1.0f
             )
         }
-        generateInitialsTextDraw()
+
 
         mDrawableRadius = min(
             mDrawableRect.height() / 2.0f,
             mDrawableRect.width() / 2.0f
         )
 
+        generateInitialsTextDraw()
         applyColorFilter()
         updateShaderMatrix()
         invalidate()
