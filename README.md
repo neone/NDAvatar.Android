@@ -36,7 +36,7 @@ This framework is simply about having a view you can feed a name and/or picture 
 
 ## SCREENSHOTS/DEMO
 
-
+[Demo](./demoImages/ndavatarDemo.gif)
 
 ## ATTRIBUTION
 
