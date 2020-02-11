@@ -49,9 +49,6 @@ open class NdAvatarView:ImageView {
         val DEFAULT_BORDER_COLOR = Color.BLUE
         val DEFAULT_AVATAR_BACKGROUND_COLOR = Color.GREEN
         val DEFAULT_BORDER_OVERLAY = false
-        val erasePaint = Paint().apply {
-            setXfermode(PorterDuffXfermode(PorterDuff.Mode.CLEAR))
-        }
         /**
          * Defaults for initials-based avatar
          */
@@ -73,7 +70,7 @@ open class NdAvatarView:ImageView {
         set(newColor) {
             if (newColor == field) return
             field = newColor
-            generateInitialsTextDraw()
+            avatarUsingInitialsBuilder = generateInitialsTextDraw()
         }
     /**
      * stringToRender is a string that defines what text will be rendered into the avatar
@@ -106,7 +103,7 @@ open class NdAvatarView:ImageView {
         set(newTypeface) {
             if (newTypeface == field) return
             field = newTypeface
-            generateInitialsTextDraw()
+            avatarUsingInitialsBuilder = generateInitialsTextDraw()
         }
     /**
      * fontSize is a Int that defines the size in pixels of the letters to be drawn in the avatar
@@ -115,7 +112,7 @@ open class NdAvatarView:ImageView {
         set(newFontSize) {
             if (newFontSize == field) return
             field = newFontSize
-            generateInitialsTextDraw()
+            avatarUsingInitialsBuilder = generateInitialsTextDraw()
         }
     /**
      * fontScaleFactor is percentage <Float> that defines how much the text in the avatar will be reduced
@@ -125,7 +122,7 @@ open class NdAvatarView:ImageView {
         set(newFontScaleFactor) {
             if (newFontScaleFactor == field) return
             field = newFontScaleFactor
-            generateInitialsTextDraw()
+            avatarUsingInitialsBuilder = generateInitialsTextDraw()
         }
     /**
      * useInitialsForAvatar is a flag used to programmatically switch between
@@ -254,9 +251,6 @@ open class NdAvatarView:ImageView {
     override fun onDraw(canvas: Canvas) {
         when (applyCircularMask) {
             true -> {
-                // Paint a transparent wipe on the border layer to clear any old content
-                canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, erasePaint)
-
                 // Paint Border
                 if (mDrawableRect.width() > 0 && mDrawableRect.height() > 0) {
                     canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
@@ -269,9 +263,6 @@ open class NdAvatarView:ImageView {
                 canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
             }
             false -> {
-                // Paint a transparent border rect to clear any old drawings
-                canvas.drawRect(mBorderRect, erasePaint)
-
                 // Paint the border
                 canvas.drawRect(mBorderRect, mBorderPaint)
 
