@@ -25,7 +25,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.MotionEvent
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -41,14 +40,11 @@ open class CircleImageView:ImageView {
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0)
-
         avatarBorderStrokeWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_civ_border_width, DEFAULT_BORDER_WIDTH)
         avatarBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR)
         mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
         avatarBackgroundColor = a.getColor(R.styleable.CircleImageView_civ_circle_background_color, DEFAULT_AVATAR_BACKGROUND_COLOR)
         initializeBitmap()
-
-
         a.recycle()
     }
 
@@ -98,7 +94,7 @@ open class CircleImageView:ImageView {
                 val splice = newString.split(" ")
                 "${splice[0][0]}${splice[1][0]}"
             } else {
-                newString
+                newString.first().toString()
             }
 
             avatarUsingInitialsBuilder = generateInitialsTextDraw()!!
