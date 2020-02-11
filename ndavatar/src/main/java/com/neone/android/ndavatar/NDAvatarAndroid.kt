@@ -67,7 +67,7 @@ open class CircleImageView:ImageView {
         val DEFAULT_TEXTCOLOR = Color.WHITE
         val DEFAULT_FONT_INITIALSAVATAR = Typeface.DEFAULT_BOLD
         val DEFAULT_FONT_SIZE = 200f
-        val DEFAULT_LETTER_SCALE_FACTOR = .60f
+        val DEFAULT_LETTER_SCALE_FACTOR = 1f
     }
 
 
@@ -140,6 +140,7 @@ open class CircleImageView:ImageView {
      */
 
     private val mDrawableRect = RectF()
+    private val mRectBackground = RectF()
     private val mBorderRect = RectF()
 
     private val mShaderMatrix = Matrix()
@@ -253,7 +254,7 @@ open class CircleImageView:ImageView {
                     canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
                 }
 
-                //Paint background circle with radius (avatarRadius+border width)
+                //Paint background circle
                 canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint)
 
                 // Paint the avatar bitmap
@@ -263,10 +264,8 @@ open class CircleImageView:ImageView {
                 // Paint the border
                 canvas.drawRect(mBorderRect, mBorderPaint)
 
-                mBorderRect.inset(20f, 20f)
                 // Paint the background
-                canvas.drawRect(mDrawableRect, mCircleBackgroundPaint)
-
+                canvas.drawRect(mRectBackground, mCircleBackgroundPaint)
 
                 // Paint the avatar bitmap (image or initials)
                 canvas.drawRect(mDrawableRect, mBitmapPaint)
@@ -374,10 +373,15 @@ open class CircleImageView:ImageView {
      * object
      */
     private fun generateInitialsTextDraw(): NDTextDraw? {
+        val newfontSize:Int = if (mDrawableRect != null) {
+            mDrawableRect.height().toInt()
+        } else {
+            (DEFAULT_FONT_SIZE * 1.5f).toInt()
+        }
         val configuredBuilder = NDTextDraw.builder().beginConfig()
             ?.textColor(textColor)
             ?.useFont(fontForInitials)
-            ?.fontSize((fontSize * fontScaleFactor).toInt())/* size in px */
+            ?.fontSize(newfontSize)/* size in px */
             ?.bold()
             ?.toUpperCase()
             ?.endConfig()
@@ -434,6 +438,8 @@ open class CircleImageView:ImageView {
 
 
         mBorderRect.set(calcOuterBoundsOfAvatarsDrawableArea())
+        mRectBackground.set(mBorderRect)
+        mRectBackground.inset(avatarBorderStrokeWidth.toFloat(), avatarBorderStrokeWidth.toFloat())
         mBorderRadius = min(
             (mBorderRect.height() - avatarBorderStrokeWidth) / 2.0f,
             (mBorderRect.width() - avatarBorderStrokeWidth) / 2.0f
@@ -448,6 +454,7 @@ open class CircleImageView:ImageView {
                 avatarBorderStrokeWidth - 1.0f
             )
         }
+        generateInitialsTextDraw()
 
         mDrawableRadius = min(
             mDrawableRect.height() / 2.0f,
