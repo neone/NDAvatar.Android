@@ -27,7 +27,6 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.ImageView
-import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
 import kotlin.math.min
@@ -42,10 +41,10 @@ open class CircleImageView:ImageView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0)
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_civ_border_width, DEFAULT_BORDER_WIDTH)
-        mBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR)
+        avatarBorderStrokeWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_civ_border_width, DEFAULT_BORDER_WIDTH)
+        avatarBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR)
         mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
-        mCircleBackgroundColor = a.getColor(R.styleable.CircleImageView_civ_circle_background_color, DEFAULT_CIRCLE_BACKGROUND_COLOR)
+        avatarBackgroundColor = a.getColor(R.styleable.CircleImageView_civ_circle_background_color, DEFAULT_AVATAR_BACKGROUND_COLOR)
         initializeBitmap()
 
 
@@ -59,12 +58,87 @@ open class CircleImageView:ImageView {
         val COLORDRAWABLE_DIMENSION = 2
         val DEFAULT_BORDER_WIDTH = 5
         val DEFAULT_BORDER_COLOR = Color.BLUE
-        val DEFAULT_CIRCLE_BACKGROUND_COLOR = Color.GREEN
+        val DEFAULT_AVATAR_BACKGROUND_COLOR = Color.GREEN
         val DEFAULT_BORDER_OVERLAY = false
+        /**
+         * Defaults for initials-based avatar
+         */
         val DEFAULT_INITIALS = "MA"
+        val DEFAULT_TEXTCOLOR = Color.WHITE
+        val DEFAULT_FONT_INITIALSAVATAR = Typeface.DEFAULT_BOLD
+        val DEFAULT_FONT_SIZE = 200f
+        val DEFAULT_LETTER_SCALE_FACTOR = .60f
     }
 
+
+    /**
+     * Variables specific to generation of initials-based avatar
+     */
+    /**
+     * textColor is an Int (@ColorInt) that defines the color of the text to be drawn
+     */
+    var textColor = DEFAULT_TEXTCOLOR
+        set(newColor) {
+            if (newColor == field) return
+            field = newColor
+            generateInitialsTextDraw()
+        }
+    /**
+     * stringToRender is a string that defines what text will be rendered into the avatar
+     */
     var stringToRender = DEFAULT_INITIALS
+        set(newString) {
+            if (newString == field) return
+            field = newString
+            avatarUsingInitialsBuilder = generateInitialsTextDraw()!!
+            initializeBitmap()
+        }
+    /**
+     * fontForInitials is a Typeface(Font) that will be used to style the string to be rendered
+     */
+    var fontForInitials = DEFAULT_FONT_INITIALSAVATAR
+        set(newTypeface) {
+            if (newTypeface == field) return
+            field = newTypeface
+            generateInitialsTextDraw()
+        }
+    /**
+     * fontSize is a Int that defines the size in pixels of the letters to be drawn in the avatar
+     */
+    var fontSize = DEFAULT_FONT_SIZE
+        set(newFontSize) {
+            if (newFontSize == field) return
+            field = newFontSize
+            generateInitialsTextDraw()
+        }
+    /**
+     * fontScaleFactor is percentage <Float> that defines how much the text in the avatar will be reduced
+     * (0,1]
+     */
+    var fontScaleFactor = DEFAULT_LETTER_SCALE_FACTOR
+        set(newFontScaleFactor) {
+            if (newFontScaleFactor == field) return
+            field = newFontScaleFactor
+            generateInitialsTextDraw()
+        }
+    /**
+     * useInitialsForAvatar is a flag used to programmatically switch between
+     */
+    var useInitialsForAvatar = false
+        set(value) {
+            if (field == value) return
+            field = value
+            initializeBitmap()
+        }
+
+    private var avatarUsingInitialsBuilder: NDTextDraw? = generateInitialsTextDraw()
+
+
+
+    /**
+     * END INITIALS-BASED AVATAR GENERATION SPECIFIC VARS
+     */
+
     private val mDrawableRect = RectF()
     private val mBorderRect = RectF()
 
@@ -73,17 +147,17 @@ open class CircleImageView:ImageView {
     private val mBorderPaint = Paint()
     private val mCircleBackgroundPaint = Paint()
 
-    private var mBorderColor = DEFAULT_BORDER_COLOR
+    var avatarBorderColor = DEFAULT_BORDER_COLOR
     set(value) {
         if (value == field) {
             return
         }
 
         field = value
-        mBorderPaint.color = mBorderColor
+        mBorderPaint.color = avatarBorderColor
         invalidate()
     }
-    private var mBorderWidth = DEFAULT_BORDER_WIDTH
+    var avatarBorderStrokeWidth = DEFAULT_BORDER_WIDTH
     set(value) {
         if (value == field) {
             return
@@ -92,15 +166,14 @@ open class CircleImageView:ImageView {
         field = value
         calcAvatarBoundsAndSetPaintbrushes()
     }
-    private var mCircleBackgroundColor = DEFAULT_CIRCLE_BACKGROUND_COLOR
+    var avatarBackgroundColor = DEFAULT_AVATAR_BACKGROUND_COLOR
     set(value) {
         if (value == field) {
             return
         }
 
         field = value
-        mCircleBackgroundPaint.color = value
-        invalidate()
+        calcAvatarBoundsAndSetPaintbrushes()
     }
 
     private lateinit var mBitmap: Bitmap
@@ -133,7 +206,7 @@ open class CircleImageView:ImageView {
             field = value
             calcAvatarBoundsAndSetPaintbrushes()
         }
-    private var mDisableCircularTransformation = false
+    var applyCircularMask = false
     set(value) {
         if (field == value) {
         return
@@ -171,43 +244,35 @@ open class CircleImageView:ImageView {
         }
     }
 
-
     override fun onDraw(canvas: Canvas) {
-        // IF not drawing a circle
-        if (mDisableCircularTransformation) {
-            super.onDraw(canvas)
-            return
+        //Circular mask?
+        when (applyCircularMask) {
+            true -> {
+                // Paint Border
+                if (mDrawableRect.width() > 0 && mDrawableRect.height() > 0) {
+                    canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
+                }
+
+                //Paint background circle with radius (avatarRadius+border width)
+                canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint)
+
+                // Paint the avatar bitmap
+                canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
+            }
+            false -> {
+                // Paint the border
+                canvas.drawRect(mBorderRect, mBorderPaint)
+
+                mBorderRect.inset(20f, 20f)
+                // Paint the background
+                canvas.drawRect(mDrawableRect, mCircleBackgroundPaint)
+
+
+                // Paint the avatar bitmap (image or initials)
+                canvas.drawRect(mDrawableRect, mBitmapPaint)
+            }
         }
-
-        // Paint background first
-        if (mCircleBackgroundColor != Color.TRANSPARENT) {
-            canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint)
-        }
-
-        // Paint avatar image or initials. mBitmapPaint should auto-switch to initials in the case of missing drawable for avatar
-        canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
-
-        if (mBorderWidth > 0 && mDrawableRect.width() > 0 && mDrawableRect.height() > 0) {
-            canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
-            val ndTextDraw = NDTextDraw.builder()
-                .beginConfig()
-                ?.textColor(Color.WHITE)
-                ?.useFont(Typeface.DEFAULT_BOLD)
-                ?.fontSize((mDrawableRect.height() *.60f).toInt())/* size in px */
-                ?.bold()
-                ?.toUpperCase()
-                ?.withBorder(15)
-                ?.endConfig()
-                ?.buildRoundRect("MA", resources.getColor(R.color.neoneOrange, null), 80)
-                ?.toBitmap(mDrawableRect.width().toInt(), mDrawableRect.height().toInt())
-            canvas.drawBitmap(ndTextDraw!!, 0f, 0f, mBitmapPaint)
-        }
-
-
-
-
     }
-
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -293,58 +358,97 @@ open class CircleImageView:ImageView {
      * Sets bitmap reference from drawable OR a default drawable to avoid null.
      */
     private fun initializeBitmap() {
-        mBitmap = if (drawable != null) {
-            getBitmapFromDrawable(drawable)
+        mBitmap = if (useInitialsForAvatar) {
+            //Translation for line below: If generateInitialsBitmap returns null, use the default avatar image from library assets
+            generateInitialsBitmap() ?: getBitmapFromDrawable( drawable ?: resources.getDrawable(R.drawable.default_avatar, null))
         } else {
-            getBitmapFromDrawable(resources.getDrawable(R.drawable.default_avatar, null))
+            // Translation for line below: if 'drawable' item is null use the default avatar image in the library assets
+            getBitmapFromDrawable( drawable ?: resources.getDrawable(R.drawable.default_avatar, null))
         }
+
         calcAvatarBoundsAndSetPaintbrushes()
     }
 
+    /**
+     * After changing a setting such as font color, font, upper/lower-case, etc, rebuild the text draw
+     * object
+     */
+    private fun generateInitialsTextDraw(): NDTextDraw? {
+        val configuredBuilder = NDTextDraw.builder().beginConfig()
+            ?.textColor(textColor)
+            ?.useFont(fontForInitials)
+            ?.fontSize((fontSize * fontScaleFactor).toInt())/* size in px */
+            ?.bold()
+            ?.toUpperCase()
+            ?.endConfig()
+
+        if (applyCircularMask) {
+            return configuredBuilder?.buildRound(stringToRender, avatarBackgroundColor)
+        } else {
+            return configuredBuilder?.buildRect(stringToRender, avatarBackgroundColor)
+        }
+    }
+
+    /**
+     * Uses the pre-existing ndTextDraw instance to generate a bitmap of native drawable size.
+     */
+    private fun generateInitialsBitmap(): Bitmap? {
+        var width = if (mDrawableRect.width() <= 0 ) 1 else mDrawableRect.width().toInt()
+        var height = if (mDrawableRect.height() <= 0) 1 else mDrawableRect.height().toInt()
+        return avatarUsingInitialsBuilder?.toBitmap(width, height)
+    }
+
     private fun calcAvatarBoundsAndSetPaintbrushes() {
+        // Wait until avatar data is ready
         if (!mReady) {
             mSetupPending = true
             return
         }
 
-        if (width == 0 && height == 0) {
+        // Skip if view has no area
+        if (width <= 0 && height <= 0) {
             return
         }
 
+        //LAYER: Image as bitmap
         // mBitmap contains the avatar image to be painted, if null, paint initials instead
-        if (::mBitmap.isInitialized) {
-            mBitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-        }
+        mBitmapShader = BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         mBitmapPaint.isAntiAlias = true
         mBitmapPaint.isDither = true
         mBitmapPaint.isFilterBitmap = true
         mBitmapPaint.shader = mBitmapShader
 
-        mBorderPaint.style = Paint.Style.STROKE
+        //LAYER: Border Paint as Stroke
+        mBorderPaint.style = Paint.Style.FILL_AND_STROKE
         mBorderPaint.isAntiAlias = true
-        mBorderPaint.color = mBorderColor
-        mBorderPaint.strokeWidth = mBorderWidth.toFloat()
+        mBorderPaint.color = avatarBorderColor
+        mBorderPaint.strokeWidth = avatarBorderStrokeWidth.toFloat()
 
+        //LAYER: Background fill
         mCircleBackgroundPaint.style = Paint.Style.FILL
         mCircleBackgroundPaint.isAntiAlias = true
-        mCircleBackgroundPaint.color = mCircleBackgroundColor
+        mCircleBackgroundPaint.color = avatarBackgroundColor
 
         mBitmapHeight = mBitmap.height
         mBitmapWidth = mBitmap.width
 
-        mBorderRect.set(calculateBounds())
+
+        mBorderRect.set(calcOuterBoundsOfAvatarsDrawableArea())
         mBorderRadius = min(
-            (mBorderRect.height() - mBorderWidth) / 2.0f,
-            (mBorderRect.width() - mBorderWidth) / 2.0f
+            (mBorderRect.height() - avatarBorderStrokeWidth) / 2.0f,
+            (mBorderRect.width() - avatarBorderStrokeWidth) / 2.0f
         )
 
         mDrawableRect.set(mBorderRect)
-        if (!mBorderOverlay && mBorderWidth > 0) {
+        // Scale the bitmap layer that will be drawn on mDrawableRect rectangle.
+        // This scales the image to be inside of the border as the border width increases
+        if (!mBorderOverlay && avatarBorderStrokeWidth > 0) {
             mDrawableRect.inset(
-                mBorderWidth - 1.0f,
-                mBorderWidth - 1.0f
+                avatarBorderStrokeWidth - 1.0f,
+                avatarBorderStrokeWidth - 1.0f
             )
         }
+
         mDrawableRadius = min(
             mDrawableRect.height() / 2.0f,
             mDrawableRect.width() / 2.0f
@@ -355,7 +459,12 @@ open class CircleImageView:ImageView {
         invalidate()
     }
 
-    private fun calculateBounds(): RectF {
+    /**
+     * Calculate outer-most pixel dimensions of screen space available for rendering avatar.
+     * 'width' and 'height' are raw pixels drawn on target device at runtime.
+     * This may be different than XML-specified values based on specific devices screen size.
+     */
+    private fun calcOuterBoundsOfAvatarsDrawableArea(): RectF {
         val availableWidth  = width - paddingLeft - paddingRight
         val availableHeight = height - paddingTop - paddingBottom
 
@@ -367,6 +476,9 @@ open class CircleImageView:ImageView {
         return RectF(left, top, left + sideLength, top + sideLength)
     }
 
+    /**
+     * Scale image to fit using largest edge
+     */
     private fun updateShaderMatrix() {
         val scale: Float
         var dx = 0f
@@ -375,7 +487,9 @@ open class CircleImageView:ImageView {
         mShaderMatrix.set(null)
 
         if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
+            // scale is drawable area/height of bitmap
             scale = mDrawableRect.height() / mBitmapHeight
+            // width of ((drawable area - width of bitmap) * scale factor from height) * 0.5
             dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f
         } else {
             scale = mDrawableRect.width() / mBitmapWidth
@@ -389,7 +503,7 @@ open class CircleImageView:ImageView {
     }
 
     override fun onTouchEvent(event: MotionEvent):Boolean {
-        if (mDisableCircularTransformation) {
+        if (!applyCircularMask) {
             return super.onTouchEvent(event)
         }
 
@@ -404,30 +518,5 @@ open class CircleImageView:ImageView {
         return  (x - mBorderRect.centerX()).toDouble().pow(2.0) +
                 (y - mBorderRect.centerY()).toDouble().pow(2.0) <=
                 mBorderRadius.toDouble().pow(2.0)
-    }
-
-    /**
-     * Accessor to set border width. Will cause a
-     * redraw of the circleview with the new border width.
-     * @param newSize Int
-     */
-    fun setBorderWidth(newSize: Int) {
-        mBorderWidth = newSize
-    }
-
-    /**
-     * Getter to get current border width.
-     * @return The width setting of the border as an Int.B
-     */
-    fun getBorderWidth(): Int {
-        return mBorderWidth
-    }
-
-    /**
-     * Accessor to set border stroke color. Will cause a
-     * redraw of the circleview with the new border stroke color.
-     */
-    fun setBorderStrokeColor(@ColorInt newColor: Int) {
-        mBorderColor = newColor
     }
 }
