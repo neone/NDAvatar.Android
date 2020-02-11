@@ -373,15 +373,10 @@ open class CircleImageView:ImageView {
      * object
      */
     private fun generateInitialsTextDraw(): NDTextDraw? {
-        val newfontSize:Int = if (mDrawableRect != null) {
-            mDrawableRect.height().toInt()
-        } else {
-            (DEFAULT_FONT_SIZE * 1.5f).toInt()
-        }
         val configuredBuilder = NDTextDraw.builder().beginConfig()
             ?.textColor(textColor)
             ?.useFont(fontForInitials)
-            ?.fontSize(newfontSize)/* size in px */
+            ?.fontSize(fitTextToDrawableArea())/* size in px */
             ?.bold()
             ?.toUpperCase()
             ?.endConfig()
@@ -390,6 +385,19 @@ open class CircleImageView:ImageView {
             return configuredBuilder?.buildRound(stringToRender, avatarBackgroundColor)
         } else {
             return configuredBuilder?.buildRect(stringToRender, avatarBackgroundColor)
+        }
+    }
+
+    /**
+     * Stubbed in function to fit font size to drawable area of the initials bitmap without clipping
+     * TODO: Dynamically size font size to fit to drawable area
+     */
+    private fun fitTextToDrawableArea(): Int {
+        return if (mDrawableRect != null) {
+            mDrawableRect.height().toInt()
+        } else {
+            // See the above todo, this is an arbitrary number that happened to work for initial testing
+            (DEFAULT_FONT_SIZE * 1.5f).toInt()
         }
     }
 
