@@ -1,3 +1,12 @@
+//File         : MainActivityViewModel
+//Version      : 0.1
+//License      : MIT
+//Author       : Marc Aldrich
+//Date Created : 2020 Feb 09
+//Last Modified: 2020 Feb 11
+//Project Link : https://github.com/neone/NDAvatarAndroid
+//Summary      : Sample application used to exercise and provide example usages for NDAvatarView project.
+//Notes        :
 package com.neone.android.ndavatarandroid
 
 import android.app.Application

@@ -1,3 +1,16 @@
+//File         : NDTextDraw
+//Version      : 0.1
+//License      : MIT
+//Author       : Marc Aldrich
+//Date Created : 2020 Feb 09
+//Last Modified: 2020 Feb 11
+//Project Link : https://github.com/neone/NDAvatarAndroid
+//Summary      : Given an image or name will draw either a rectangular or circular view with a
+// border and background color.
+//Notes        :
+//Attribution  : Amulyakhare - https://github.com/amulyakhare/TextDrawable - This project was used
+// as a starting point to convert from Java to Kotlin. Some touchups were made to update from the 5+
+// year old Java project.
 package com.neone.android.ndavatar
 
 import android.graphics.*

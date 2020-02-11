@@ -1,21 +1,15 @@
-
-
-
-/*
- * Copyright 2014 - 2020 Henning Dodenhof
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//File         : NDAvatarView
+//Version      : 0.1
+//License      : MIT
+//Author       : Marc Aldrich
+//Date Created : 2020 Feb 09
+//Last Modified: 2020 Feb 11
+//Project Link : https://github.com/neone/NDAvatarAndroid
+//Summary      : Given an image or name will draw either a rectangular or circular view with a
+// border and background color.
+//Notes        :
+//Attribution  : Henning Dodenhof - https://github.com/hdodenhof/CircleImageView - This project
+// served as a starting point for this project before being updated to Kotlin and rewritten to fit our needs.
 package com.neone.android.ndavatar
 
 import android.content.Context
@@ -32,18 +26,16 @@ import androidx.core.graphics.drawable.toBitmap
 import kotlin.math.min
 import kotlin.math.pow
 
-
-open class CircleImageView:ImageView {
-    private val paintbrush = Paint()
+open class NdAvatarView:ImageView {
     // Constructors for ImageView
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0)
-        avatarBorderStrokeWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_civ_border_width, DEFAULT_BORDER_WIDTH)
-        avatarBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR)
-        mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
-        avatarBackgroundColor = a.getColor(R.styleable.CircleImageView_civ_circle_background_color, DEFAULT_AVATAR_BACKGROUND_COLOR)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.NdAvatarView, defStyle, 0)
+        avatarBorderStrokeWidth = a.getDimensionPixelSize(R.styleable.NdAvatarView_civ_border_width, DEFAULT_BORDER_WIDTH)
+        avatarBorderColor = a.getColor(R.styleable.NdAvatarView_civ_border_color, DEFAULT_BORDER_COLOR)
+        mBorderOverlay = a.getBoolean(R.styleable.NdAvatarView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
+        avatarBackgroundColor = a.getColor(R.styleable.NdAvatarView_civ_circle_background_color, DEFAULT_AVATAR_BACKGROUND_COLOR)
         initializeBitmap()
         a.recycle()
     }
@@ -89,6 +81,13 @@ open class CircleImageView:ImageView {
     var stringToRender = DEFAULT_INITIALS
         set(newString) {
             if (newString == field) return
+            if (newString.isNullOrEmpty()) {
+                field = "?"
+                avatarUsingInitialsBuilder = generateInitialsTextDraw()!!
+                initializeBitmap()
+                return
+            }
+
             // If string contains a space-character then split into first letters to make initials
             field = if (newString.trim().contains(' ')) {
                 val splice = newString.split(" ")
@@ -481,7 +480,6 @@ open class CircleImageView:ImageView {
                 avatarBorderStrokeWidth - 1.0f
             )
         }
-
 
         mDrawableRadius = min(
             mDrawableRect.height() / 2.0f,

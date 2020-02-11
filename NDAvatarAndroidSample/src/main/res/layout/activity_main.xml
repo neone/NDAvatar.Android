@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.neone.android.ndavatar.CircleImageView
+        <com.neone.android.ndavatar.NdAvatarView
             android:id="@+id/circleImageView"
             android:name="com.neone.android.ndavatar.CircleImageView"
             android:layout_width="250dp"
