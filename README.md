@@ -42,3 +42,15 @@ This framework is simply about having a view you can feed a name and/or picture 
 
 - Henning Dodenhof https://github.com/hdodenhof/CircleImageView
 - Amulyakhare https://github.com/amulyakhare/TextDrawable
+
+## HOW TO INCLUDE IN YOUR PROJECT
+### GRADLE
+```
+dependencies {
+    // LOCAL REFERENCE TO LIBRARY
+    //implementation project(':ndavatar')
+
+    // REMOTE REFERENCE TO PUBLISHED LIBRARY
+    implementation(group: 'com.neone.android', name: 'ndavatar', version: '1.0.0', ext: 'aar', classifier: '')
+}
+```
