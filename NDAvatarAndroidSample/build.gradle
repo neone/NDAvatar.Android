@@ -1,8 +1,12 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+
+repositories {
+    maven {
+        url  "https://dl.bintray.com/neoneoperations/NDAvatarAndroid"
+    }
+}
 
 android {
     compileSdkVersion 29
@@ -24,7 +28,10 @@ android {
 
 dependencies {
     // LOCAL REFERENCE TO LIBRARY
-    implementation project(':ndavatar')
+    //implementation project(':ndavatar')
+
+    // REMOTE REFERENCE TO PUBLISHED LIBRARY
+    implementation(group: 'com.neone.android', name: 'ndavatar', version: '1.0.0', ext: 'aar', classifier: '')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

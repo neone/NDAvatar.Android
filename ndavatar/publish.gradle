@@ -22,8 +22,8 @@ bintray {
     configurations = ['archives']
     override = true
     pkg {
-        repo = 'maven'
-        name = 'NDAvatarAndroid'
+        repo = 'NDAvatarAndroid'
+        name = 'ndavatar'
         description = "This framework is simply about having a view you can feed a name and/or picture and it displays a rounded crop version with either the pic or user initials."
         publicDownloadNumbers = true
         licenses = ['MIT']
