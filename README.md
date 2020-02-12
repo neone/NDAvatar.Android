@@ -44,8 +44,11 @@ This framework is simply about having a view you can feed a name and/or picture 
 - Amulyakhare https://github.com/amulyakhare/TextDrawable
 
 ## HOW TO INCLUDE IN YOUR PROJECT
-### GRADLE
+### MODULE BUILD.GRADLE
 ```
+repositories {
+    maven { url  "https://dl.bintray.com/neoneoperations/NDAvatarAndroid" }
+}
 dependencies {
     // LOCAL REFERENCE TO LIBRARY
     //implementation project(':ndavatar')
