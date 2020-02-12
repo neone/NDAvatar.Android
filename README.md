@@ -14,7 +14,7 @@ This framework is simply about having a view you can feed a name and/or picture 
 - Kotlin: Compiled/Tested with 1.3+
 
 ## FEATURES
-
+- 100% Kotlin
 - Rectangular or circular avatar view: Selectable with a boolean flag
 - Avatar Framing:
   - Control border width
