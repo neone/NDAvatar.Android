@@ -1,0 +1,40 @@
+apply plugin: 'com.jfrog.bintray'
+
+group 'com.neone.android'
+version '1.0.0'
+
+project.ext {
+    mavGitUrl = 'https://github.com/neone/NDAvatarAndroid.git'
+    mavProjectName = 'ndavatar'
+    mavLibraryLicenses = ["MIT":'https://opensource.org/licenses/MIT']
+    mavLibraryDescription = "This framework is simply about having a view you can feed a name and/or picture and it displays a rounded crop version with either the pic or user initials."
+    mavPublishToMavenLocal = true
+    mavSiteUrl = 'https://github.com/neone/NDAvatarAndroid'
+}
+
+def properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['Production']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = 'maven'
+        name = 'NDAvatarAndroid'
+        description = "This framework is simply about having a view you can feed a name and/or picture and it displays a rounded crop version with either the pic or user initials."
+        publicDownloadNumbers = true
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/neone/NDAvatarAndroid'
+        version {
+            name = this.version
+            desc = "Version ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+        }
+    }
+}
+
+apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'
