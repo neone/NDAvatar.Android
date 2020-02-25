@@ -1,19 +1,23 @@
-# NDAvatarAndroid
+![BannerImage](./Images/NDAvatar.AndroidGitHubBanner.png)
 
-## DESCRIPTION
+## Description
 
 The NDAvatar framework provides a unified way of setting and displaying user avatars based on their name or profile picture. Customization options include adding a border, border width, and border color, as well as setting the frame's corner radius or creating a circular mask. You can see example usage of the framework in NDAvatarAndroidSample. The sample application does not use all functionality but hits some of the more important features for our team.
 
-## DESIGN GOAL
+## Design Goal
 
 This framework is simply about having a view you can feed a name and/or picture and it displays a rounded crop version with either the pic or user initials.
 
-## REQUIREMENTS FOR USE
+## Screenshots/Demo
+
+![Demo](./demoImages/ndavatarDemo.gif)
+
+## Requirements for Use
 - Android: minSdkVersion 26
 - Android: targetSdkVersion 29
 - Kotlin: Compiled/Tested with 1.3+
 
-## FEATURES
+## Features
 - 100% Kotlin
 - Rectangular or circular avatar view: Selectable with a boolean flag
 - Avatar Framing:
@@ -34,16 +38,14 @@ This framework is simply about having a view you can feed a name and/or picture 
 - [ ] Use camera to take an image to use for avatar: Not implemented yet.
 - [ ] User-facing control of cropping: The current implementation will exclusively center-crop image passed in
 
-## SCREENSHOTS/DEMO
 
-![Demo](./demoImages/ndavatarDemo.gif)
 
-## ATTRIBUTION
+## Attribution
 
 - Henning Dodenhof https://github.com/hdodenhof/CircleImageView
 - Amulyakhare https://github.com/amulyakhare/TextDrawable
 
-## HOW TO INCLUDE IN YOUR PROJECT
+## Integration
 ### MODULE BUILD.GRADLE
 ```
 repositories {
