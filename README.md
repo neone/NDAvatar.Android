@@ -4,6 +4,10 @@
 
 The NDAvatar framework provides a unified way of setting and displaying user avatars based on their name or profile picture. Customization options include adding a border, border width, and border color, as well as setting the frame's corner radius or creating a circular mask. You can see example usage of the framework in NDAvatarAndroidSample. The sample application does not use all functionality but hits some of the more important features for our team.
 
+If you are looking for an iOS solution for Avatars we have a companion project built in Swift
+
+[NDAvatar.iOS](https://github.com/neone/NDAvatar.Android)
+
 ## Design Goal
 
 This framework is simply about having a view you can feed a name and/or picture and it displays a rounded crop version with either the pic or user initials.
