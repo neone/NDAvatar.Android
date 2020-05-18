@@ -26,7 +26,7 @@ import androidx.core.graphics.drawable.toBitmap
 import kotlin.math.min
 import kotlin.math.pow
 
-open class NdAvatarView:ImageView {
+open class NdAvatarView:androidx.appcompat.widget.AppCompatImageView {
     // Constructors for ImageView
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
