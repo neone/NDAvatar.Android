@@ -26,7 +26,7 @@ import androidx.core.graphics.drawable.toBitmap
 import kotlin.math.min
 import kotlin.math.pow
 
-open class NdAvatarView:ImageView {
+open class NdAvatarView:androidx.appcompat.widget.AppCompatImageView {
     // Constructors for ImageView
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
@@ -46,15 +46,15 @@ open class NdAvatarView:ImageView {
         val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
         val COLORDRAWABLE_DIMENSION = 2
         val DEFAULT_BORDER_WIDTH = 5
-        val DEFAULT_BORDER_COLOR = Color.BLUE
-        val DEFAULT_AVATAR_BACKGROUND_COLOR = Color.GREEN
+        val DEFAULT_BORDER_COLOR = R.color.neoneGrayLightest
+        val DEFAULT_AVATAR_BACKGROUND_COLOR = R.color.neoneGray
         val DEFAULT_BORDER_OVERLAY = false
         /**
          * Defaults for initials-based avatar
          */
         val DEFAULT_INITIALS = "MA"
         val DEFAULT_TEXTCOLOR = Color.WHITE
-        val DEFAULT_FONT_INITIALSAVATAR = Typeface.DEFAULT_BOLD
+        val DEFAULT_FONT_INITIALSAVATAR = Typeface.DEFAULT
         val DEFAULT_FONT_SIZE = 200f
         val DEFAULT_LETTER_SCALE_FACTOR = 1f
     }
@@ -210,7 +210,7 @@ open class NdAvatarView:ImageView {
             field = value
             calcAvatarBoundsAndSetPaintbrushes()
         }
-    var applyCircularMask = false
+    var applyCircularMask = true
     set(value) {
         if (field == value) {
         return

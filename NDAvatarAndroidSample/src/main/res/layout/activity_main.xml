@@ -7,287 +7,292 @@
     android:background="@color/neoneGrayLight"
     tools:context=".MainActivity">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.neone.android.ndavatar.NdAvatarView
-            android:id="@+id/circleImageView"
-            android:name="com.neone.android.ndavatar.CircleImageView"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-
-
-            android:src="@drawable/bigbull"
-            app:civ_border_color="@color/neoneOrange"
-            app:civ_border_width="5dp"
-            app:civ_circle_background_color="@color/neoneGreen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutContainer_borderSizeDisplayGroup" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutContainer_borderSizeControlGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/circleImageView">
-
-            <TextView
-                android:id="@+id/BorderSizeControlHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/border_size_controls_heading_text"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_borderSizeIncrease"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btn_borderSizeDecrease"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/btn_borderSizeIncrease"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/BorderSizeControlHeader"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/arrow_up_float" />
-
-            <ImageButton
-                android:id="@+id/btn_borderSizeDecrease"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/arrow_down_float" />
-
-            <SeekBar
-                android:id="@+id/seekBar_borderSizeSlider"
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:max="250"
-                android:min="0"
-                android:minWidth="100dp"
-                android:progressBackgroundTint="@color/neoneGrayDark"
-                android:progressTint="@color/neoneOrange"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BorderSizeControlHeader" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutContainer_borderSizeDisplayGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-            <TextView
-                android:id="@+id/BorderSizeHeadingText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/border_size_display_header_text"
-                app:layout_constraintBottom_toTopOf="@id/borderSizeDisplay"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="7dp" />
-
-            <TextView
-                android:id="@+id/borderSizeDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BorderSizeHeadingText" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutContainer_borderColorControlGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutContainer_borderSizeControlGroup">
-
-            <TextView
-                android:id="@+id/textView_borderColorControlGroupHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/border_color_controls_header_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <SeekBar
-                android:id="@+id/borderColorControls_slider_red"
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:min="0"
-                android:progress="127"
-                android:progressBackgroundTint="@color/neoneGrayDark"
-                android:progressTint="@color/red"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_borderColorControlGroupHeader" />
-
-            <SeekBar
-                android:id="@+id/borderColorControls_slider_green"
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:min="0"
-                android:progress="127"
-                android:progressBackgroundTint="@color/neoneGrayDark"
-                android:progressTint="@color/green"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/borderColorControls_slider_red" />
-
-            <SeekBar
-                android:id="@+id/borderColorControls_slider_blue"
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:min="0"
-                android:progress="127"
-                android:progressBackgroundTint="@color/neoneGrayDark"
-                android:progressTint="@color/blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/borderColorControls_slider_green" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="211dp"
-            android:layout_height="131dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="409dp"
+            android:layout_height="729dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Switch
-                android:id="@+id/switch_useImageForAvatarSource"
+            <com.neone.android.ndavatar.NdAvatarView
+                android:id="@+id/circleImageView"
+                android:name="com.neone.android.ndavatar.CircleImageView"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/bigbull"
+                app:civ_border_color="@color/neoneOrange"
+                app:civ_border_width="5dp"
+                app:civ_circle_background_color="@color/neoneGreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutContainer_borderSizeDisplayGroup" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutContainer_borderSizeControlGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Use image for avatar"
-                android:textOff="Image as avatar source"
-                android:textOn="Text as avatar source"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/circleImageView">
+
+                <TextView
+                    android:id="@+id/BorderSizeControlHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/border_size_controls_heading_text"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_borderSizeIncrease"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/btn_borderSizeDecrease"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btn_borderSizeIncrease"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/BorderSizeControlHeader"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/arrow_up_float" />
+
+                <ImageButton
+                    android:id="@+id/btn_borderSizeDecrease"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/arrow_down_float" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_borderSizeSlider"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:max="250"
+                    android:min="0"
+                    android:minWidth="100dp"
+                    android:progressBackgroundTint="@color/neoneGrayDark"
+                    android:progressTint="@color/neoneOrange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/BorderSizeControlHeader" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutContainer_borderSizeDisplayGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" >
+
+                <TextView
+                    android:id="@+id/BorderSizeHeadingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/border_size_display_header_text"
+                    app:layout_constraintBottom_toTopOf="@id/borderSizeDisplay"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="19dp"
+                    tools:layout_editor_absoluteY="7dp" />
+
+                <TextView
+                    android:id="@+id/borderSizeDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/BorderSizeHeadingText" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutContainer_borderColorControlGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutContainer_borderSizeControlGroup">
 
-            <EditText
-                android:id="@+id/textInput_avatarStringInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="3"
-                android:hint="Enter your initials"
-                android:inputType="textCapWords|textCapCharacters"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:text="MA"
+                <TextView
+                    android:id="@+id/textView_borderColorControlGroupHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/border_color_controls_header_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/borderColorControls_slider_red"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:min="0"
+                    android:progress="127"
+                    android:progressBackgroundTint="@color/neoneGrayDark"
+                    android:progressTint="@color/red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_borderColorControlGroupHeader" />
+
+                <SeekBar
+                    android:id="@+id/borderColorControls_slider_green"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:min="0"
+                    android:progress="127"
+                    android:progressBackgroundTint="@color/neoneGrayDark"
+                    android:progressTint="@color/green"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/borderColorControls_slider_red" />
+
+                <SeekBar
+                    android:id="@+id/borderColorControls_slider_blue"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:min="0"
+                    android:progress="127"
+                    android:progressBackgroundTint="@color/neoneGrayDark"
+                    android:progressTint="@color/blue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/borderColorControls_slider_green" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="211dp"
+                android:layout_height="131dp"
+                android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switch_useImageForAvatarSource" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <CheckBox
-                android:id="@+id/checkBox_useCircMask"
+                <Switch
+                    android:id="@+id/switch_useImageForAvatarSource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Use image for avatar"
+                    android:textOff="Image as avatar source"
+                    android:textOn="Text as avatar source"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/textInput_avatarStringInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:hint="Enter your initials"
+                    android:inputType="textCapWords|textCapCharacters"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:text="MA"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/switch_useImageForAvatarSource" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_useCircMask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Use Circular Mask"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutContainer_backgroundColorControlGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Use Circular Mask"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutContainer_backgroundColorControlGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutContainer_borderColorControlGroup">
-
-            <TextView
-                android:id="@+id/textView_backgroundColorControlGroupHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="background color controls"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutContainer_borderColorControlGroup">
 
-            <SeekBar
-                android:id="@+id/slider_backgroundColorControls_red"
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:min="0"
-                android:progress="127"
-                android:progressBackgroundTint="@color/neoneGrayDark"
-                android:progressTint="@color/red"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_backgroundColorControlGroupHeader" />
+                <TextView
+                    android:id="@+id/textView_backgroundColorControlGroupHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="background color controls"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <SeekBar
-                android:id="@+id/slider_backgroundColorControls_green"
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:min="0"
-                android:progress="127"
-                android:progressBackgroundTint="@color/neoneGrayDark"
-                android:progressTint="@color/green"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/slider_backgroundColorControls_red" />
+                <SeekBar
+                    android:id="@+id/slider_backgroundColorControls_red"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:min="0"
+                    android:progress="127"
+                    android:progressBackgroundTint="@color/neoneGrayDark"
+                    android:progressTint="@color/red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_backgroundColorControlGroupHeader" />
 
-            <SeekBar
-                android:id="@+id/slider_backgroundColorControls_blue"
-                android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:max="255"
-                android:min="0"
-                android:progress="127"
-                android:progressBackgroundTint="@color/neoneGrayDark"
-                android:progressTint="@color/blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/slider_backgroundColorControls_green" />
+                <SeekBar
+                    android:id="@+id/slider_backgroundColorControls_green"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:min="0"
+                    android:progress="127"
+                    android:progressBackgroundTint="@color/neoneGrayDark"
+                    android:progressTint="@color/green"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/slider_backgroundColorControls_red" />
+
+                <SeekBar
+                    android:id="@+id/slider_backgroundColorControls_blue"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:min="0"
+                    android:progress="127"
+                    android:progressBackgroundTint="@color/neoneGrayDark"
+                    android:progressTint="@color/blue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/slider_backgroundColorControls_green" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
