@@ -54,7 +54,7 @@ open class NdAvatarView:ImageView {
          */
         val DEFAULT_INITIALS = "MA"
         val DEFAULT_TEXTCOLOR = Color.WHITE
-        val DEFAULT_FONT_INITIALSAVATAR = Typeface.DEFAULT_BOLD
+        val DEFAULT_FONT_INITIALSAVATAR = Typeface.DEFAULT
         val DEFAULT_FONT_SIZE = 200f
         val DEFAULT_LETTER_SCALE_FACTOR = 1f
     }
